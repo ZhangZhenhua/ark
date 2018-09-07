@@ -21,7 +21,7 @@ limitations under the License.
 package v1
 
 import (
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	meta_v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -114,8 +114,12 @@ func (in *BackupResourceHook) DeepCopyInto(out *BackupResourceHook) {
 	*out = *in
 	if in.Exec != nil {
 		in, out := &in.Exec, &out.Exec
-		*out = new(ExecHook)
-		(*in).DeepCopyInto(*out)
+		if *in == nil {
+			*out = nil
+		} else {
+			*out = new(ExecHook)
+			(*in).DeepCopyInto(*out)
+		}
 	}
 	return
 }
@@ -155,8 +159,12 @@ func (in *BackupResourceHookSpec) DeepCopyInto(out *BackupResourceHookSpec) {
 	}
 	if in.LabelSelector != nil {
 		in, out := &in.LabelSelector, &out.LabelSelector
-		*out = new(metav1.LabelSelector)
-		(*in).DeepCopyInto(*out)
+		if *in == nil {
+			*out = nil
+		} else {
+			*out = new(meta_v1.LabelSelector)
+			(*in).DeepCopyInto(*out)
+		}
 	}
 	if in.Hooks != nil {
 		in, out := &in.Hooks, &out.Hooks
@@ -217,19 +225,31 @@ func (in *BackupSpec) DeepCopyInto(out *BackupSpec) {
 	}
 	if in.LabelSelector != nil {
 		in, out := &in.LabelSelector, &out.LabelSelector
-		*out = new(metav1.LabelSelector)
-		(*in).DeepCopyInto(*out)
+		if *in == nil {
+			*out = nil
+		} else {
+			*out = new(meta_v1.LabelSelector)
+			(*in).DeepCopyInto(*out)
+		}
 	}
 	if in.SnapshotVolumes != nil {
 		in, out := &in.SnapshotVolumes, &out.SnapshotVolumes
-		*out = new(bool)
-		**out = **in
+		if *in == nil {
+			*out = nil
+		} else {
+			*out = new(bool)
+			**out = **in
+		}
 	}
 	out.TTL = in.TTL
 	if in.IncludeClusterResources != nil {
 		in, out := &in.IncludeClusterResources, &out.IncludeClusterResources
-		*out = new(bool)
-		**out = **in
+		if *in == nil {
+			*out = nil
+		} else {
+			*out = new(bool)
+			**out = **in
+		}
 	}
 	in.Hooks.DeepCopyInto(&out.Hooks)
 	return
@@ -253,15 +273,12 @@ func (in *BackupStatus) DeepCopyInto(out *BackupStatus) {
 		in, out := &in.VolumeBackups, &out.VolumeBackups
 		*out = make(map[string]*VolumeBackupInfo, len(*in))
 		for key, val := range *in {
-			var outVal *VolumeBackupInfo
 			if val == nil {
 				(*out)[key] = nil
 			} else {
-				in, out := &val, &outVal
-				*out = new(VolumeBackupInfo)
-				(*in).DeepCopyInto(*out)
+				(*out)[key] = new(VolumeBackupInfo)
+				val.DeepCopyInto((*out)[key])
 			}
-			(*out)[key] = outVal
 		}
 	}
 	if in.ValidationErrors != nil {
@@ -415,8 +432,12 @@ func (in *Config) DeepCopyInto(out *Config) {
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
 	if in.PersistentVolumeProvider != nil {
 		in, out := &in.PersistentVolumeProvider, &out.PersistentVolumeProvider
-		*out = new(CloudProviderConfig)
-		(*in).DeepCopyInto(*out)
+		if *in == nil {
+			*out = nil
+		} else {
+			*out = new(CloudProviderConfig)
+			(*in).DeepCopyInto(*out)
+		}
 	}
 	return
 }
@@ -1087,15 +1108,12 @@ func (in *RestoreResult) DeepCopyInto(out *RestoreResult) {
 		in, out := &in.Namespaces, &out.Namespaces
 		*out = make(map[string][]string, len(*in))
 		for key, val := range *in {
-			var outVal []string
 			if val == nil {
 				(*out)[key] = nil
 			} else {
-				in, out := &val, &outVal
-				*out = make([]string, len(*in))
-				copy(*out, *in)
+				(*out)[key] = make([]string, len(val))
+				copy((*out)[key], val)
 			}
-			(*out)[key] = outVal
 		}
 	}
 	return
@@ -1143,18 +1161,30 @@ func (in *RestoreSpec) DeepCopyInto(out *RestoreSpec) {
 	}
 	if in.LabelSelector != nil {
 		in, out := &in.LabelSelector, &out.LabelSelector
-		*out = new(metav1.LabelSelector)
-		(*in).DeepCopyInto(*out)
+		if *in == nil {
+			*out = nil
+		} else {
+			*out = new(meta_v1.LabelSelector)
+			(*in).DeepCopyInto(*out)
+		}
 	}
 	if in.RestorePVs != nil {
 		in, out := &in.RestorePVs, &out.RestorePVs
-		*out = new(bool)
-		**out = **in
+		if *in == nil {
+			*out = nil
+		} else {
+			*out = new(bool)
+			**out = **in
+		}
 	}
 	if in.IncludeClusterResources != nil {
 		in, out := &in.IncludeClusterResources, &out.IncludeClusterResources
-		*out = new(bool)
-		**out = **in
+		if *in == nil {
+			*out = nil
+		} else {
+			*out = new(bool)
+			**out = **in
+		}
 	}
 	return
 }
@@ -1295,8 +1325,12 @@ func (in *StorageType) DeepCopyInto(out *StorageType) {
 	*out = *in
 	if in.ObjectStorage != nil {
 		in, out := &in.ObjectStorage, &out.ObjectStorage
-		*out = new(ObjectStorageLocation)
-		**out = **in
+		if *in == nil {
+			*out = nil
+		} else {
+			*out = new(ObjectStorageLocation)
+			**out = **in
+		}
 	}
 	return
 }
@@ -1316,8 +1350,12 @@ func (in *VolumeBackupInfo) DeepCopyInto(out *VolumeBackupInfo) {
 	*out = *in
 	if in.Iops != nil {
 		in, out := &in.Iops, &out.Iops
-		*out = new(int64)
-		**out = **in
+		if *in == nil {
+			*out = nil
+		} else {
+			*out = new(int64)
+			**out = **in
+		}
 	}
 	return
 }
@@ -1499,8 +1537,12 @@ func (in *VolumeSnapshotSpec) DeepCopyInto(out *VolumeSnapshotSpec) {
 	*out = *in
 	if in.Iops != nil {
 		in, out := &in.Iops, &out.Iops
-		*out = new(int64)
-		**out = **in
+		if *in == nil {
+			*out = nil
+		} else {
+			*out = new(int64)
+			**out = **in
+		}
 	}
 	return
 }

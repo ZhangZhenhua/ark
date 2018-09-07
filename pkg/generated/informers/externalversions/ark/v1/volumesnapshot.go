@@ -21,11 +21,11 @@ package v1
 import (
 	time "time"
 
-	arkv1 "github.com/heptio/ark/pkg/apis/ark/v1"
+	ark_v1 "github.com/heptio/ark/pkg/apis/ark/v1"
 	versioned "github.com/heptio/ark/pkg/generated/clientset/versioned"
 	internalinterfaces "github.com/heptio/ark/pkg/generated/informers/externalversions/internalinterfaces"
 	v1 "github.com/heptio/ark/pkg/generated/listers/ark/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	meta_v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	watch "k8s.io/apimachinery/pkg/watch"
 	cache "k8s.io/client-go/tools/cache"
@@ -57,20 +57,20 @@ func NewVolumeSnapshotInformer(client versioned.Interface, namespace string, res
 func NewFilteredVolumeSnapshotInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
-			ListFunc: func(options metav1.ListOptions) (runtime.Object, error) {
+			ListFunc: func(options meta_v1.ListOptions) (runtime.Object, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
 				return client.ArkV1().VolumeSnapshots(namespace).List(options)
 			},
-			WatchFunc: func(options metav1.ListOptions) (watch.Interface, error) {
+			WatchFunc: func(options meta_v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
 				return client.ArkV1().VolumeSnapshots(namespace).Watch(options)
 			},
 		},
-		&arkv1.VolumeSnapshot{},
+		&ark_v1.VolumeSnapshot{},
 		resyncPeriod,
 		indexers,
 	)
@@ -81,7 +81,7 @@ func (f *volumeSnapshotInformer) defaultInformer(client versioned.Interface, res
 }
 
 func (f *volumeSnapshotInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&arkv1.VolumeSnapshot{}, f.defaultInformer)
+	return f.factory.InformerFor(&ark_v1.VolumeSnapshot{}, f.defaultInformer)
 }
 
 func (f *volumeSnapshotInformer) Lister() v1.VolumeSnapshotLister {

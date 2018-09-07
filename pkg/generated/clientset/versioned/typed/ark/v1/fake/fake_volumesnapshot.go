@@ -19,7 +19,7 @@ limitations under the License.
 package fake
 
 import (
-	arkv1 "github.com/heptio/ark/pkg/apis/ark/v1"
+	ark_v1 "github.com/heptio/ark/pkg/apis/ark/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
@@ -39,20 +39,20 @@ var volumesnapshotsResource = schema.GroupVersionResource{Group: "ark.heptio.com
 var volumesnapshotsKind = schema.GroupVersionKind{Group: "ark.heptio.com", Version: "v1", Kind: "VolumeSnapshot"}
 
 // Get takes name of the volumeSnapshot, and returns the corresponding volumeSnapshot object, and an error if there is any.
-func (c *FakeVolumeSnapshots) Get(name string, options v1.GetOptions) (result *arkv1.VolumeSnapshot, err error) {
+func (c *FakeVolumeSnapshots) Get(name string, options v1.GetOptions) (result *ark_v1.VolumeSnapshot, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(volumesnapshotsResource, c.ns, name), &arkv1.VolumeSnapshot{})
+		Invokes(testing.NewGetAction(volumesnapshotsResource, c.ns, name), &ark_v1.VolumeSnapshot{})
 
 	if obj == nil {
 		return nil, err
 	}
-	return obj.(*arkv1.VolumeSnapshot), err
+	return obj.(*ark_v1.VolumeSnapshot), err
 }
 
 // List takes label and field selectors, and returns the list of VolumeSnapshots that match those selectors.
-func (c *FakeVolumeSnapshots) List(opts v1.ListOptions) (result *arkv1.VolumeSnapshotList, err error) {
+func (c *FakeVolumeSnapshots) List(opts v1.ListOptions) (result *ark_v1.VolumeSnapshotList, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewListAction(volumesnapshotsResource, volumesnapshotsKind, c.ns, opts), &arkv1.VolumeSnapshotList{})
+		Invokes(testing.NewListAction(volumesnapshotsResource, volumesnapshotsKind, c.ns, opts), &ark_v1.VolumeSnapshotList{})
 
 	if obj == nil {
 		return nil, err
@@ -62,8 +62,8 @@ func (c *FakeVolumeSnapshots) List(opts v1.ListOptions) (result *arkv1.VolumeSna
 	if label == nil {
 		label = labels.Everything()
 	}
-	list := &arkv1.VolumeSnapshotList{ListMeta: obj.(*arkv1.VolumeSnapshotList).ListMeta}
-	for _, item := range obj.(*arkv1.VolumeSnapshotList).Items {
+	list := &ark_v1.VolumeSnapshotList{ListMeta: obj.(*ark_v1.VolumeSnapshotList).ListMeta}
+	for _, item := range obj.(*ark_v1.VolumeSnapshotList).Items {
 		if label.Matches(labels.Set(item.Labels)) {
 			list.Items = append(list.Items, item)
 		}
@@ -79,43 +79,43 @@ func (c *FakeVolumeSnapshots) Watch(opts v1.ListOptions) (watch.Interface, error
 }
 
 // Create takes the representation of a volumeSnapshot and creates it.  Returns the server's representation of the volumeSnapshot, and an error, if there is any.
-func (c *FakeVolumeSnapshots) Create(volumeSnapshot *arkv1.VolumeSnapshot) (result *arkv1.VolumeSnapshot, err error) {
+func (c *FakeVolumeSnapshots) Create(volumeSnapshot *ark_v1.VolumeSnapshot) (result *ark_v1.VolumeSnapshot, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(volumesnapshotsResource, c.ns, volumeSnapshot), &arkv1.VolumeSnapshot{})
+		Invokes(testing.NewCreateAction(volumesnapshotsResource, c.ns, volumeSnapshot), &ark_v1.VolumeSnapshot{})
 
 	if obj == nil {
 		return nil, err
 	}
-	return obj.(*arkv1.VolumeSnapshot), err
+	return obj.(*ark_v1.VolumeSnapshot), err
 }
 
 // Update takes the representation of a volumeSnapshot and updates it. Returns the server's representation of the volumeSnapshot, and an error, if there is any.
-func (c *FakeVolumeSnapshots) Update(volumeSnapshot *arkv1.VolumeSnapshot) (result *arkv1.VolumeSnapshot, err error) {
+func (c *FakeVolumeSnapshots) Update(volumeSnapshot *ark_v1.VolumeSnapshot) (result *ark_v1.VolumeSnapshot, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(volumesnapshotsResource, c.ns, volumeSnapshot), &arkv1.VolumeSnapshot{})
+		Invokes(testing.NewUpdateAction(volumesnapshotsResource, c.ns, volumeSnapshot), &ark_v1.VolumeSnapshot{})
 
 	if obj == nil {
 		return nil, err
 	}
-	return obj.(*arkv1.VolumeSnapshot), err
+	return obj.(*ark_v1.VolumeSnapshot), err
 }
 
 // UpdateStatus was generated because the type contains a Status member.
 // Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeVolumeSnapshots) UpdateStatus(volumeSnapshot *arkv1.VolumeSnapshot) (*arkv1.VolumeSnapshot, error) {
+func (c *FakeVolumeSnapshots) UpdateStatus(volumeSnapshot *ark_v1.VolumeSnapshot) (*ark_v1.VolumeSnapshot, error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceAction(volumesnapshotsResource, "status", c.ns, volumeSnapshot), &arkv1.VolumeSnapshot{})
+		Invokes(testing.NewUpdateSubresourceAction(volumesnapshotsResource, "status", c.ns, volumeSnapshot), &ark_v1.VolumeSnapshot{})
 
 	if obj == nil {
 		return nil, err
 	}
-	return obj.(*arkv1.VolumeSnapshot), err
+	return obj.(*ark_v1.VolumeSnapshot), err
 }
 
 // Delete takes name of the volumeSnapshot and deletes it. Returns an error if one occurs.
 func (c *FakeVolumeSnapshots) Delete(name string, options *v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewDeleteAction(volumesnapshotsResource, c.ns, name), &arkv1.VolumeSnapshot{})
+		Invokes(testing.NewDeleteAction(volumesnapshotsResource, c.ns, name), &ark_v1.VolumeSnapshot{})
 
 	return err
 }
@@ -124,17 +124,17 @@ func (c *FakeVolumeSnapshots) Delete(name string, options *v1.DeleteOptions) err
 func (c *FakeVolumeSnapshots) DeleteCollection(options *v1.DeleteOptions, listOptions v1.ListOptions) error {
 	action := testing.NewDeleteCollectionAction(volumesnapshotsResource, c.ns, listOptions)
 
-	_, err := c.Fake.Invokes(action, &arkv1.VolumeSnapshotList{})
+	_, err := c.Fake.Invokes(action, &ark_v1.VolumeSnapshotList{})
 	return err
 }
 
 // Patch applies the patch and returns the patched volumeSnapshot.
-func (c *FakeVolumeSnapshots) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *arkv1.VolumeSnapshot, err error) {
+func (c *FakeVolumeSnapshots) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *ark_v1.VolumeSnapshot, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(volumesnapshotsResource, c.ns, name, data, subresources...), &arkv1.VolumeSnapshot{})
+		Invokes(testing.NewPatchSubresourceAction(volumesnapshotsResource, c.ns, name, data, subresources...), &ark_v1.VolumeSnapshot{})
 
 	if obj == nil {
 		return nil, err
 	}
-	return obj.(*arkv1.VolumeSnapshot), err
+	return obj.(*ark_v1.VolumeSnapshot), err
 }
