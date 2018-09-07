@@ -44,6 +44,10 @@ type Interface interface {
 	Restores() RestoreInformer
 	// Schedules returns a ScheduleInformer.
 	Schedules() ScheduleInformer
+	// Snapshots returns a SnapshotInformer.
+	Snapshots() SnapshotInformer
+	// VolumeLocations returns a VolumeLocationInformer.
+	VolumeLocations() VolumeLocationInformer
 }
 
 type version struct {
@@ -105,4 +109,14 @@ func (v *version) Restores() RestoreInformer {
 // Schedules returns a ScheduleInformer.
 func (v *version) Schedules() ScheduleInformer {
 	return &scheduleInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
+// Snapshots returns a SnapshotInformer.
+func (v *version) Snapshots() SnapshotInformer {
+	return &snapshotInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
+}
+
+// VolumeLocations returns a VolumeLocationInformer.
+func (v *version) VolumeLocations() VolumeLocationInformer {
+	return &volumeLocationInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }

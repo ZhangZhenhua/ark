@@ -69,6 +69,8 @@ func CustomResources() map[string]typeInfo {
 		"PodVolumeRestore":      newTypeInfo("podvolumerestores", &PodVolumeRestore{}, &PodVolumeRestoreList{}),
 		"ResticRepository":      newTypeInfo("resticrepositories", &ResticRepository{}, &ResticRepositoryList{}),
 		"BackupStorageLocation": newTypeInfo("backupstoragelocations", &BackupStorageLocation{}, &BackupStorageLocationList{}),
+		"VolumeLocation":        newTypeInfo("volumelocations", &VolumeLocation{}, &VolumeLocationList{}),
+		"Snapshot":              newTypeInfo("snapshots", &Snapshot{}, &SnapshotList{}),
 	}
 }
 

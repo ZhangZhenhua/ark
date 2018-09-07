@@ -31,59 +31,59 @@ import (
 	cache "k8s.io/client-go/tools/cache"
 )
 
-// ConfigInformer provides access to a shared informer and lister for
-// Configs.
-type ConfigInformer interface {
+// VolumeLocationInformer provides access to a shared informer and lister for
+// VolumeLocations.
+type VolumeLocationInformer interface {
 	Informer() cache.SharedIndexInformer
-	Lister() v1.ConfigLister
+	Lister() v1.VolumeLocationLister
 }
 
-type configInformer struct {
+type volumeLocationInformer struct {
 	factory          internalinterfaces.SharedInformerFactory
 	tweakListOptions internalinterfaces.TweakListOptionsFunc
 	namespace        string
 }
 
-// NewConfigInformer constructs a new informer for Config type.
+// NewVolumeLocationInformer constructs a new informer for VolumeLocation type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewConfigInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
-	return NewFilteredConfigInformer(client, namespace, resyncPeriod, indexers, nil)
+func NewVolumeLocationInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
+	return NewFilteredVolumeLocationInformer(client, namespace, resyncPeriod, indexers, nil)
 }
 
-// NewFilteredConfigInformer constructs a new informer for Config type.
+// NewFilteredVolumeLocationInformer constructs a new informer for VolumeLocation type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewFilteredConfigInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
+func NewFilteredVolumeLocationInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
 			ListFunc: func(options metav1.ListOptions) (runtime.Object, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.ArkV1().Configs(namespace).List(options)
+				return client.ArkV1().VolumeLocations(namespace).List(options)
 			},
 			WatchFunc: func(options metav1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.ArkV1().Configs(namespace).Watch(options)
+				return client.ArkV1().VolumeLocations(namespace).Watch(options)
 			},
 		},
-		&arkv1.Config{},
+		&arkv1.VolumeLocation{},
 		resyncPeriod,
 		indexers,
 	)
 }
 
-func (f *configInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
-	return NewFilteredConfigInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
+func (f *volumeLocationInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
+	return NewFilteredVolumeLocationInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 
-func (f *configInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&arkv1.Config{}, f.defaultInformer)
+func (f *volumeLocationInformer) Informer() cache.SharedIndexInformer {
+	return f.factory.InformerFor(&arkv1.VolumeLocation{}, f.defaultInformer)
 }
 
-func (f *configInformer) Lister() v1.ConfigLister {
-	return v1.NewConfigLister(f.Informer().GetIndexer())
+func (f *volumeLocationInformer) Lister() v1.VolumeLocationLister {
+	return v1.NewVolumeLocationLister(f.Informer().GetIndexer())
 }

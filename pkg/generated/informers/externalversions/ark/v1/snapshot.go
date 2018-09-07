@@ -31,59 +31,59 @@ import (
 	cache "k8s.io/client-go/tools/cache"
 )
 
-// ConfigInformer provides access to a shared informer and lister for
-// Configs.
-type ConfigInformer interface {
+// SnapshotInformer provides access to a shared informer and lister for
+// Snapshots.
+type SnapshotInformer interface {
 	Informer() cache.SharedIndexInformer
-	Lister() v1.ConfigLister
+	Lister() v1.SnapshotLister
 }
 
-type configInformer struct {
+type snapshotInformer struct {
 	factory          internalinterfaces.SharedInformerFactory
 	tweakListOptions internalinterfaces.TweakListOptionsFunc
 	namespace        string
 }
 
-// NewConfigInformer constructs a new informer for Config type.
+// NewSnapshotInformer constructs a new informer for Snapshot type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewConfigInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
-	return NewFilteredConfigInformer(client, namespace, resyncPeriod, indexers, nil)
+func NewSnapshotInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
+	return NewFilteredSnapshotInformer(client, namespace, resyncPeriod, indexers, nil)
 }
 
-// NewFilteredConfigInformer constructs a new informer for Config type.
+// NewFilteredSnapshotInformer constructs a new informer for Snapshot type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewFilteredConfigInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
+func NewFilteredSnapshotInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
 			ListFunc: func(options metav1.ListOptions) (runtime.Object, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.ArkV1().Configs(namespace).List(options)
+				return client.ArkV1().Snapshots(namespace).List(options)
 			},
 			WatchFunc: func(options metav1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.ArkV1().Configs(namespace).Watch(options)
+				return client.ArkV1().Snapshots(namespace).Watch(options)
 			},
 		},
-		&arkv1.Config{},
+		&arkv1.Snapshot{},
 		resyncPeriod,
 		indexers,
 	)
 }
 
-func (f *configInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
-	return NewFilteredConfigInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
+func (f *snapshotInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
+	return NewFilteredSnapshotInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 
-func (f *configInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&arkv1.Config{}, f.defaultInformer)
+func (f *snapshotInformer) Informer() cache.SharedIndexInformer {
+	return f.factory.InformerFor(&arkv1.Snapshot{}, f.defaultInformer)
 }
 
-func (f *configInformer) Lister() v1.ConfigLister {
-	return v1.NewConfigLister(f.Informer().GetIndexer())
+func (f *snapshotInformer) Lister() v1.SnapshotLister {
+	return v1.NewSnapshotLister(f.Informer().GetIndexer())
 }

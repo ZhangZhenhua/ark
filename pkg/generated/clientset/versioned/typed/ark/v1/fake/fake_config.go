@@ -19,7 +19,7 @@ limitations under the License.
 package fake
 
 import (
-	ark_v1 "github.com/heptio/ark/pkg/apis/ark/v1"
+	arkv1 "github.com/heptio/ark/pkg/apis/ark/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
@@ -39,20 +39,20 @@ var configsResource = schema.GroupVersionResource{Group: "ark.heptio.com", Versi
 var configsKind = schema.GroupVersionKind{Group: "ark.heptio.com", Version: "v1", Kind: "Config"}
 
 // Get takes name of the config, and returns the corresponding config object, and an error if there is any.
-func (c *FakeConfigs) Get(name string, options v1.GetOptions) (result *ark_v1.Config, err error) {
+func (c *FakeConfigs) Get(name string, options v1.GetOptions) (result *arkv1.Config, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewGetAction(configsResource, c.ns, name), &ark_v1.Config{})
+		Invokes(testing.NewGetAction(configsResource, c.ns, name), &arkv1.Config{})
 
 	if obj == nil {
 		return nil, err
 	}
-	return obj.(*ark_v1.Config), err
+	return obj.(*arkv1.Config), err
 }
 
 // List takes label and field selectors, and returns the list of Configs that match those selectors.
-func (c *FakeConfigs) List(opts v1.ListOptions) (result *ark_v1.ConfigList, err error) {
+func (c *FakeConfigs) List(opts v1.ListOptions) (result *arkv1.ConfigList, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewListAction(configsResource, configsKind, c.ns, opts), &ark_v1.ConfigList{})
+		Invokes(testing.NewListAction(configsResource, configsKind, c.ns, opts), &arkv1.ConfigList{})
 
 	if obj == nil {
 		return nil, err
@@ -62,8 +62,8 @@ func (c *FakeConfigs) List(opts v1.ListOptions) (result *ark_v1.ConfigList, err 
 	if label == nil {
 		label = labels.Everything()
 	}
-	list := &ark_v1.ConfigList{ListMeta: obj.(*ark_v1.ConfigList).ListMeta}
-	for _, item := range obj.(*ark_v1.ConfigList).Items {
+	list := &arkv1.ConfigList{ListMeta: obj.(*arkv1.ConfigList).ListMeta}
+	for _, item := range obj.(*arkv1.ConfigList).Items {
 		if label.Matches(labels.Set(item.Labels)) {
 			list.Items = append(list.Items, item)
 		}
@@ -79,31 +79,31 @@ func (c *FakeConfigs) Watch(opts v1.ListOptions) (watch.Interface, error) {
 }
 
 // Create takes the representation of a config and creates it.  Returns the server's representation of the config, and an error, if there is any.
-func (c *FakeConfigs) Create(config *ark_v1.Config) (result *ark_v1.Config, err error) {
+func (c *FakeConfigs) Create(config *arkv1.Config) (result *arkv1.Config, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewCreateAction(configsResource, c.ns, config), &ark_v1.Config{})
+		Invokes(testing.NewCreateAction(configsResource, c.ns, config), &arkv1.Config{})
 
 	if obj == nil {
 		return nil, err
 	}
-	return obj.(*ark_v1.Config), err
+	return obj.(*arkv1.Config), err
 }
 
 // Update takes the representation of a config and updates it. Returns the server's representation of the config, and an error, if there is any.
-func (c *FakeConfigs) Update(config *ark_v1.Config) (result *ark_v1.Config, err error) {
+func (c *FakeConfigs) Update(config *arkv1.Config) (result *arkv1.Config, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewUpdateAction(configsResource, c.ns, config), &ark_v1.Config{})
+		Invokes(testing.NewUpdateAction(configsResource, c.ns, config), &arkv1.Config{})
 
 	if obj == nil {
 		return nil, err
 	}
-	return obj.(*ark_v1.Config), err
+	return obj.(*arkv1.Config), err
 }
 
 // Delete takes name of the config and deletes it. Returns an error if one occurs.
 func (c *FakeConfigs) Delete(name string, options *v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewDeleteAction(configsResource, c.ns, name), &ark_v1.Config{})
+		Invokes(testing.NewDeleteAction(configsResource, c.ns, name), &arkv1.Config{})
 
 	return err
 }
@@ -112,17 +112,17 @@ func (c *FakeConfigs) Delete(name string, options *v1.DeleteOptions) error {
 func (c *FakeConfigs) DeleteCollection(options *v1.DeleteOptions, listOptions v1.ListOptions) error {
 	action := testing.NewDeleteCollectionAction(configsResource, c.ns, listOptions)
 
-	_, err := c.Fake.Invokes(action, &ark_v1.ConfigList{})
+	_, err := c.Fake.Invokes(action, &arkv1.ConfigList{})
 	return err
 }
 
 // Patch applies the patch and returns the patched config.
-func (c *FakeConfigs) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *ark_v1.Config, err error) {
+func (c *FakeConfigs) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *arkv1.Config, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceAction(configsResource, c.ns, name, data, subresources...), &ark_v1.Config{})
+		Invokes(testing.NewPatchSubresourceAction(configsResource, c.ns, name, data, subresources...), &arkv1.Config{})
 
 	if obj == nil {
 		return nil, err
 	}
-	return obj.(*ark_v1.Config), err
+	return obj.(*arkv1.Config), err
 }

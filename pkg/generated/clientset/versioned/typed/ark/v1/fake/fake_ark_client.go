@@ -68,6 +68,14 @@ func (c *FakeArkV1) Schedules(namespace string) v1.ScheduleInterface {
 	return &FakeSchedules{c, namespace}
 }
 
+func (c *FakeArkV1) Snapshots(namespace string) v1.SnapshotInterface {
+	return &FakeSnapshots{c, namespace}
+}
+
+func (c *FakeArkV1) VolumeLocations(namespace string) v1.VolumeLocationInterface {
+	return &FakeVolumeLocations{c, namespace}
+}
+
 // RESTClient returns a RESTClient that is used to communicate
 // with API server by this client implementation.
 func (c *FakeArkV1) RESTClient() rest.Interface {

@@ -61,6 +61,12 @@ type BackupSpec struct {
 
 	// StorageLocation is a string containing the name of a BackupStorageLocation where the backup should be stored.
 	StorageLocation string `json:"storageLocation"`
+
+	// VolumeLocation is a string containing the name of a VolumeLocation where... TODO
+	VolumeLocation string `json:"volumeLocation"`
+
+	// Snapshot is a string containing the name of a Snapshot where... TODO
+	Snapshot string `json:"snapshot"`
 }
 
 // BackupHooks contains custom behaviors that should be executed at different phases of the backup.
