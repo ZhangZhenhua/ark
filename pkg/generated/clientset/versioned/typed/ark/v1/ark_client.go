@@ -37,8 +37,8 @@ type ArkV1Interface interface {
 	ResticRepositoriesGetter
 	RestoresGetter
 	SchedulesGetter
-	SnapshotsGetter
-	VolumeLocationsGetter
+	VolumeSnapshotsGetter
+	VolumeSnapshotLocationsGetter
 }
 
 // ArkV1Client is used to interact with features provided by the ark.heptio.com group.
@@ -86,12 +86,12 @@ func (c *ArkV1Client) Schedules(namespace string) ScheduleInterface {
 	return newSchedules(c, namespace)
 }
 
-func (c *ArkV1Client) Snapshots(namespace string) SnapshotInterface {
-	return newSnapshots(c, namespace)
+func (c *ArkV1Client) VolumeSnapshots(namespace string) VolumeSnapshotInterface {
+	return newVolumeSnapshots(c, namespace)
 }
 
-func (c *ArkV1Client) VolumeLocations(namespace string) VolumeLocationInterface {
-	return newVolumeLocations(c, namespace)
+func (c *ArkV1Client) VolumeSnapshotLocations(namespace string) VolumeSnapshotLocationInterface {
+	return newVolumeSnapshotLocations(c, namespace)
 }
 
 // NewForConfig creates a new ArkV1Client for the given config.

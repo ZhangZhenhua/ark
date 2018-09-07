@@ -38,6 +38,6 @@ type RestoreExpansion interface{}
 
 type ScheduleExpansion interface{}
 
-type SnapshotExpansion interface{}
+type VolumeSnapshotExpansion interface{}
 
-type VolumeLocationExpansion interface{}
+type VolumeSnapshotLocationExpansion interface{}
