@@ -56,8 +56,8 @@ type VolumeSnapshotSpec struct {
 	// Backup is a string containing the name of name of the Ark backup this snapshot is associated with.
 	Backup string `json:"backup"`
 
-	// VolumeSnapshotLocation is a string containing the name of a VolumeSnapshotLocation.
-	VolumeSnapshotLocation string `json:"volumeLocation"`
+	// Location is a string containing the name of a VolumeSnapshotLocation.
+	Location string `json:"volumeLocation"`
 }
 
 // VolumeSnapshotStatus captures the current status of an Ark VolumeSnapshot.
