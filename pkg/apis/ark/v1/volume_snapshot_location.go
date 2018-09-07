@@ -21,7 +21,7 @@ import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 // +genclient
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// VolumeSnapshotLocation is a location where Ark stores backup objects.
+// VolumeSnapshotLocation is a location where Ark stores volume snapshots.
 type VolumeSnapshotLocation struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata"`
@@ -41,13 +41,11 @@ type VolumeSnapshotLocationList struct {
 
 // VolumeSnapshotLocationSpec defines the specification for an Ark VolumeSnapshotLocation.
 type VolumeSnapshotLocationSpec struct {
-	// Provider is the provider of the backup storage.
+	// Provider is the provider of the volume storage.
 	Provider string `json:"provider"`
 
 	// Config is for provider-specific configuration fields.
 	Config map[string]string `json:"config"`
-
-	StorageType `json:",inline"`
 }
 
 // VolumeSnapshotLocationPhase is the lifecyle phase of an Ark VolumeSnapshotLocation.
@@ -59,17 +57,6 @@ const (
 
 	// VolumeSnapshotLocationPhaseUnavailable means the location is unavailable to read and write from.
 	VolumeSnapshotLocationPhaseUnavailable VolumeSnapshotLocationPhase = "Unavailable"
-)
-
-// VolumeSnapshotLocationAccessMode represents the permissions for a VolumeSnapshotLocation.
-type VolumeSnapshotLocationAccessMode string
-
-const (
-	// VolumeSnapshotLocationAccessModeReadOnly represents read-only access to a VolumeSnapshotLocation.
-	VolumeSnapshotLocationAccessModeReadOnly VolumeSnapshotLocationAccessMode = "ReadOnly"
-
-	// VolumeSnapshotLocationAccessModeReadWrite represents read and write access to a VolumeSnapshotLocation.
-	VolumeSnapshotLocationAccessModeReadWrite VolumeSnapshotLocationAccessMode = "ReadWrite"
 )
 
 // VolumeSnapshotLocationStatus describes the current status of an Ark VolumeSnapshotLocation.

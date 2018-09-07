@@ -252,6 +252,11 @@ func (in *BackupSpec) DeepCopyInto(out *BackupSpec) {
 		}
 	}
 	in.Hooks.DeepCopyInto(&out.Hooks)
+	if in.VolumeSnapshotLocations != nil {
+		in, out := &in.VolumeSnapshotLocations, &out.VolumeSnapshotLocations
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
 	return
 }
 
@@ -1502,7 +1507,6 @@ func (in *VolumeSnapshotLocationSpec) DeepCopyInto(out *VolumeSnapshotLocationSp
 			(*out)[key] = val
 		}
 	}
-	in.StorageType.DeepCopyInto(&out.StorageType)
 	return
 }
 
@@ -1565,7 +1569,6 @@ func (in *VolumeSnapshotStatus) DeepCopyInto(out *VolumeSnapshotStatus) {
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
-	in.StartTimestamp.DeepCopyInto(&out.StartTimestamp)
 	in.CompletionTimestamp.DeepCopyInto(&out.CompletionTimestamp)
 	return
 }
