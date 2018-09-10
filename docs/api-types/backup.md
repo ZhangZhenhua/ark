@@ -60,6 +60,12 @@ spec:
   # AWS. Valid values are true, false, and null/unset. If unset, Ark performs snapshots as long as
   # a persistent volume provider is configured for Ark.
   snapshotVolumes: null
+  # 
+  storageLocation: aws-primary
+  # 
+  volumeSnapshotLocations:
+    - aws-primary
+    - gcp-primary
   # The amount of time before this backup is eligible for garbage collection.
   ttl: 24h0m0s
   # Actions to perform at different times during a backup. The only hook currently supported is

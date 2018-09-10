@@ -63,7 +63,7 @@ type BackupSpec struct {
 	StorageLocation string `json:"storageLocation"`
 
 	// VolumeSnapshotLocations is a list containing names of VolumeSnapshotLocations associated with this backup.
-	VolumeSnapshotLocations []string `json:"volumeLocations"`
+	VolumeSnapshotLocations []string `json:"volumeSnapshotLocations"`
 }
 
 // BackupHooks contains custom behaviors that should be executed at different phases of the backup.

@@ -21,7 +21,7 @@ import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 // +genclient
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// VolumeSnapshot is... TODO
+// VolumeSnapshot represents a volume snapshot of a persistent volume
 type VolumeSnapshot struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata"`
@@ -56,7 +56,7 @@ type VolumeSnapshotSpec struct {
 	// Backup is a string containing the name of name of the Ark backup this snapshot is associated with.
 	Backup string `json:"backup"`
 
-	// Location is a string containing the name of a VolumeSnapshotLocation.
+	// Location is the name of the VolumeSnapshotLocation where this snapshot is stored."
 	Location string `json:"location"`
 }
 
@@ -71,16 +71,6 @@ type VolumeSnapshotStatus struct {
 
 	// Phase is the current state of the VolumeSnapshot.
 	Phase VolumeSnapshotPhase `json:"phase,omitempty"`
-
-	// ValidationErrors is a slice of all validation errors (if
-	// applicable).
-	ValidationErrors []string `json:"validationErrors"`
-
-	// CompletionTimestamp records the time a backup was completed.
-	// Completion time is recorded even on failed backups.
-	// Completion time is recorded before uploading the backup object.
-	// The server's time is used for CompletionTimestamps
-	CompletionTimestamp metav1.Time `json:"completionTimestamp"`
 }
 
 // VolumeSnapshotPhase is the lifecyle phase of an Ark VolumeSnapshot.
